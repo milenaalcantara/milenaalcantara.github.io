@@ -1,0 +1,813 @@
+<title>Milena Alcântara — Desenvolvedora Front-end &amp; iOS</title>
+<style>
+  :root {
+    --bg: #EDEFF2;
+    --surface: #FFFFFF;
+    --surface-alt: #E4E7EC;
+    --ink: #14181F;
+    --ink-soft: #4B5563;
+    --ink-faint: #6B7280;
+    --accent: #B34A1B;
+    --accent-ink: #FFFFFF;
+    --accent-soft: rgba(179, 74, 27, 0.10);
+    --line: #C9CDD6;
+    --line-strong: #AEB4C0;
+    --shadow: 0 1px 2px rgba(20, 24, 31, 0.04), 0 8px 24px rgba(20, 24, 31, 0.06);
+
+    --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "SF Mono", "JetBrains Mono", "Roboto Mono", ui-monospace, Menlo, Consolas, monospace;
+
+    --fs-2xl: clamp(2.6rem, 5vw + 1rem, 4.4rem);
+    --fs-xl: clamp(1.9rem, 2.4vw + 1rem, 2.6rem);
+    --fs-lg: 1.375rem;
+    --fs-md: 1.0625rem;
+    --fs-sm: 0.9375rem;
+    --fs-xs: 0.8125rem;
+
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.75rem;
+    --space-4: 3rem;
+    --space-5: 5rem;
+    --space-6: 8rem;
+
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10131A;
+      --surface: #171B24;
+      --surface-alt: #1C212C;
+      --ink: #E7E9ED;
+      --ink-soft: #9AA3B2;
+      --ink-faint: #78808F;
+      --accent: #E2793E;
+      --accent-ink: #10131A;
+      --accent-soft: rgba(226, 121, 62, 0.14);
+      --line: #262B36;
+      --line-strong: #333A48;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.35);
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #10131A;
+    --surface: #171B24;
+    --surface-alt: #1C212C;
+    --ink: #E7E9ED;
+    --ink-soft: #9AA3B2;
+    --ink-faint: #78808F;
+    --accent: #E2793E;
+    --accent-ink: #10131A;
+    --accent-soft: rgba(226, 121, 62, 0.14);
+    --line: #262B36;
+    --line-strong: #333A48;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #EDEFF2;
+    --surface: #FFFFFF;
+    --surface-alt: #E4E7EC;
+    --ink: #14181F;
+    --ink-soft: #4B5563;
+    --ink-faint: #6B7280;
+    --accent: #B34A1B;
+    --accent-ink: #FFFFFF;
+    --accent-soft: rgba(179, 74, 27, 0.10);
+    --line: #C9CDD6;
+    --line-strong: #AEB4C0;
+    --shadow: 0 1px 2px rgba(20, 24, 31, 0.04), 0 8px 24px rgba(20, 24, 31, 0.06);
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: var(--fs-md);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-wrap: balance;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .wrap {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+  }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-2);
+    padding-bottom: var(--space-2);
+  }
+  .brand {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 0.15em;
+  }
+  .brand b { color: var(--accent); font-weight: 600; display: inline-block; transition: transform 0.2s ease; }
+  .brand:hover b:first-child { transform: translateX(-2px); }
+  .brand:hover b:last-child { transform: translateX(2px); }
+  .nav-links {
+    display: flex;
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--fs-sm);
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    padding: 0.25rem 0.1rem;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible { color: var(--ink); border-color: var(--accent); }
+  .nav-toggle { display: none; }
+
+  @media (max-width: 42rem) {
+    .nav-links {
+      position: fixed;
+      inset: 3.4rem 0 auto 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      flex-direction: column;
+      gap: 0;
+      padding: var(--space-2) var(--space-3) var(--space-3);
+      transform: translateY(-110%);
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .nav-links[data-open="true"] { transform: translateY(0); opacity: 1; }
+    .nav-links li { border-top: 1px solid var(--line); }
+    .nav-links li:first-child { border-top: none; }
+    .nav-links a { display: block; padding: 0.85rem 0.1rem; }
+    .nav-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border: 1px solid var(--line);
+      border-radius: 0.4rem;
+      background: var(--surface);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .nav-toggle:hover, .nav-toggle:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    opacity: 0.35;
+    -webkit-mask-image: radial-gradient(ellipse 60% 55% at 30% 20%, black, transparent 70%);
+    mask-image: radial-gradient(ellipse 60% 55% at 30% 20%, black, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; max-width: 42rem; }
+  .hero .eyebrow { display: block; margin-bottom: var(--space-2); }
+  .hero .eyebrow::after {
+    content: "";
+    display: inline-block;
+    width: 0.5em;
+    height: 1em;
+    margin-left: 0.2em;
+    background: var(--accent);
+    vertical-align: -0.15em;
+    animation: cursor-blink 1s steps(1) infinite;
+  }
+  @keyframes cursor-blink { 50% { opacity: 0; } }
+  .hero h1 { font-size: var(--fs-2xl); line-height: 1.04; }
+  .hero p.lede {
+    margin-top: var(--space-3);
+    font-size: var(--fs-lg);
+    color: var(--ink-soft);
+    max-width: 38rem;
+  }
+  .hero-actions {
+    margin-top: var(--space-4);
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--font-body);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    padding: 0.75rem 1.4rem;
+    border-radius: 0.35rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-primary:hover { background: color-mix(in srgb, var(--accent) 88%, black); box-shadow: 0 6px 18px var(--accent-soft); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- Sections ---------- */
+  section { padding-top: var(--space-5); padding-bottom: var(--space-5); }
+  section + section { border-top: 1px solid var(--line); }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .section-head h2 { font-size: var(--fs-xl); }
+  .section-head .eyebrow { white-space: nowrap; }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+  .about-grid p { color: var(--ink-soft); margin: 0 0 var(--space-2); }
+  .about-grid p:last-child { margin-bottom: 0; }
+  .stat-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+  .stat-list li {
+    border-left: 2px solid var(--accent);
+    padding-left: var(--space-2);
+    transition: padding-left 0.2s ease;
+  }
+  .stat-list li:hover { padding-left: calc(var(--space-2) + 0.35rem); }
+  .stat-num { font-family: var(--font-mono); font-size: 1.6rem; color: var(--ink); display: block; }
+  .stat-label { font-size: var(--fs-xs); color: var(--ink-faint); }
+
+  @media (max-width: 42rem) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Projects */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .project-card {
+    position: relative;
+    background: var(--surface);
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .project-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .project-card:hover, .project-card:focus-within {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    z-index: 1;
+  }
+  .project-card:hover::before, .project-card:focus-within::before { transform: scaleX(1); }
+  .project-card.featured { grid-column: 1 / -1; }
+  .project-card.featured p { max-width: 46rem; }
+  .project-card h3 { font-size: 1.3rem; transition: color 0.2s ease; }
+  .project-card:hover h3, .project-card:focus-within h3 { color: var(--accent); }
+  .project-card .role { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--accent); }
+  .project-card p { margin: 0; color: var(--ink-soft); font-size: var(--fs-sm); }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; padding-top: var(--space-2); }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .project-card:hover .tag, .project-card:focus-within .tag { border-color: var(--line-strong); color: var(--ink); }
+
+  @media (max-width: 42rem) {
+    .project-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Skills */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+  }
+  .skill-group h3 {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    font-weight: 500;
+    margin-bottom: var(--space-2);
+  }
+  .skill-group ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .skill-group li {
+    font-size: var(--fs-sm);
+    color: var(--ink-soft);
+    padding-bottom: 0.55rem;
+    padding-left: 0;
+    border-bottom: 1px solid var(--line);
+    border-left: 2px solid transparent;
+    transition: color 0.15s ease, padding-left 0.15s ease, border-left-color 0.15s ease;
+  }
+  .skill-group li:last-child { border-bottom: none; padding-bottom: 0; }
+  .skill-group li:hover { color: var(--ink); padding-left: 0.5rem; border-left-color: var(--accent); }
+
+  @media (max-width: 48rem) {
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Experience */
+  .timeline { display: grid; gap: 0; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-2);
+    margin: 0 calc(-1 * var(--space-2));
+    border-top: 1px solid var(--line);
+    border-radius: 0.4rem;
+    transition: background-color 0.2s ease;
+  }
+  .timeline-item:first-child { border-top: none; }
+  .timeline-item:hover { background: var(--surface-alt); }
+  .timeline-date {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--ink-faint);
+    padding-top: 0.2rem;
+    transition: color 0.2s ease;
+  }
+  .timeline-item:hover .timeline-date { color: var(--accent); }
+  .timeline-body h3 { font-size: 1.15rem; }
+  .timeline-body .company { color: var(--accent); font-size: var(--fs-sm); font-weight: 600; }
+  .timeline-body p { margin: var(--space-1) 0 0; color: var(--ink-soft); font-size: var(--fs-sm); }
+
+  @media (max-width: 36rem) {
+    .timeline-item { grid-template-columns: 1fr; gap: 0.4rem; }
+  }
+
+  /* Contact */
+  .contact-panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 0.5rem;
+    padding: var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    box-shadow: var(--shadow);
+  }
+  .contact-panel h2 { font-size: var(--fs-xl); max-width: 26rem; }
+  .contact-links { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+  .link-chip {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--ink);
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    padding: 0.6rem 1rem;
+    border-radius: 0.35rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+  }
+  .link-chip:hover, .link-chip:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateY(-1px);
+  }
+
+  footer {
+    padding: var(--space-3) 0 var(--space-4);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--ink-faint);
+  }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  [data-reveal].is-visible { opacity: 1; transform: none; }
+</style>
+
+<nav class="nav">
+  <div class="wrap nav-row">
+    <a class="brand" href="#topo"><b>&lt;</b>Milena A.<b>/&gt;</b></a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menu">≡</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experiencia">Experiência</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="topo">
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <span class="eyebrow" id="heroEyebrow">// desenvolvedora front-end e ios</span>
+      <h1>Olá, eu sou a Milena.</h1>
+      <p class="lede">Desenvolvedora de software de Fortaleza-CE, especializada em front-end web e iOS. Do Apple Developer Academy a produtos em produção — sempre com foco em experiência do usuário e código limpo.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#projetos">Ver projetos</a>
+        <a class="btn btn-ghost" href="#contato">Entrar em contato</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="sobre">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Sobre</h2>
+        <span class="eyebrow">01 · perfil</span>
+      </div>
+      <div class="about-grid">
+        <div data-reveal>
+          <p>Sou desenvolvedora especializada em iOS e front-end web. Me empolga dar vida aos aspectos técnicos e visuais de produtos digitais — experiência do usuário e código limpo, claro e legível são o que mais me importa no trabalho do dia a dia.</p>
+          <p>Comecei em 2017, no Bacharelado em Ciência da Computação do IFCE — Campus Maracanaú. No caminho passei pela Apple Developer Academy duas vezes — primeiro como aluna, depois como mentora de código — e hoje construo aplicações com SwiftUI, UIKit, React e Vue, aplicando princípios SOLID e padrões de arquitetura no processo.</p>
+          <p>Fora do teclado, você me encontra fazendo crochê — de sousplats a amigurumis —, fotografando paisagens, lendo, praticando atividades físicas ou com a família.</p>
+        </div>
+        <ul class="stat-list" data-reveal>
+          <li>
+            <span class="stat-num">5+</span>
+            <span class="stat-label">anos atuando profissionalmente em front-end e iOS</span>
+          </li>
+          <li>
+            <span class="stat-num">2x</span>
+            <span class="stat-label">Apple Developer Academy — de aluna a mentora</span>
+          </li>
+          <li>
+            <span class="stat-num">7</span>
+            <span class="stat-label">projetos em destaque logo abaixo</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projetos">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Projetos</h2>
+        <span class="eyebrow">02 · trabalho selecionado</span>
+      </div>
+      <div class="project-grid">
+        <article class="project-card featured" data-reveal>
+          <span class="role">acústica arquitetônica · projeto completo</span>
+          <h3>Auralize</h3>
+          <p>Acústica virtual para projetos arquitetônicos: simula ambientes sonoros e faz medições acústicas pelo celular, permitindo ouvir o projeto antes de construí-lo. Atuei em quase todas as frentes — back-end em Python/Django, front-end web em React e o app iOS em Swift, UIKit e AVFoundation.</p>
+          <div class="tag-row">
+            <span class="tag">Python</span>
+            <span class="tag">Django</span>
+            <span class="tag">React</span>
+            <span class="tag">Swift</span>
+            <span class="tag">UIKit</span>
+          </div>
+        </article>
+        <article class="project-card" data-reveal>
+          <span class="role">correção de provas · ios</span>
+          <h3>PROF</h3>
+          <p>PROF foi idealizado em VIP com UIKit programático, mas ainda carregava boa parte da interface em Storyboard. Removi esses Storyboards gradualmente, à medida que precisava mexer em cada feature, corrigi bugs existentes e construí uma feature de reconhecimento de documento que transforma a foto de um gabarito em PDF.</p>
+          <div class="tag-row">
+            <span class="tag">Swift</span>
+            <span class="tag">VIP</span>
+            <span class="tag">UIKit</span>
+            <span class="tag">Reconhecimento de imagem</span>
+          </div>
+        </article>
+        <article class="project-card" data-reveal>
+          <span class="role">agenda · ios</span>
+          <h3>Versar Agenda</h3>
+          <p>App pensado em SwiftUI com arquitetura MVVM-C. Resolvi problemas de concorrência, ajustei fluxos de navegação e corrigi tratamento de dados vindos da API, além de refatorar o design de features já existentes.</p>
+          <div class="tag-row">
+            <span class="tag">SwiftUI</span>
+            <span class="tag">MVVM-C</span>
+            <span class="tag">Concorrência</span>
+            <span class="tag">API</span>
+          </div>
+        </article>
+        <article class="project-card" data-reveal>
+          <span class="role">experiência sensorial</span>
+          <h3>Quiet</h3>
+          <p>App iOS imersivo com sons naturais para uma experiência sensorial relaxante, projetado com acessibilidade como prioridade: haptics, animações, compatibilidade com VoiceOver, aumento de texto e cores para diferentes contrastes.</p>
+          <div class="tag-row">
+            <span class="tag">Acessibilidade</span>
+            <span class="tag">VoiceOver</span>
+            <span class="tag">Haptics</span>
+          </div>
+        </article>
+        <article class="project-card" data-reveal>
+          <span class="role">mindfulness</span>
+          <h3>5Senses</h3>
+          <p>App para acalmar a mente em momentos de tensão com a técnica dos 5 sentidos, descrevendo o que se vê, ouve, cheira, sente e prova. Pensado para quem busca reduzir pensamentos intrusivos.</p>
+          <div class="tag-row">
+            <span class="tag">Mindfulness</span>
+            <span class="tag">Bem-estar</span>
+          </div>
+        </article>
+        <article class="project-card" data-reveal>
+          <span class="role">plataforma de ensino</span>
+          <h3>Homero</h3>
+          <p>Plataforma EAD que adapta a entrega de conteúdo a cada aluno via IA, considerando ritmo, conhecimento prévio e desempenho. O assistente virtual Homero conduz a jornada com perguntas e feedback ativos.</p>
+          <div class="tag-row">
+            <span class="tag">IA</span>
+            <span class="tag">EAD</span>
+            <span class="tag">Personalização</span>
+          </div>
+        </article>
+        <article class="project-card" data-reveal>
+          <span class="role">suporte ao cliente</span>
+          <h3>Multilaser</h3>
+          <p>Site de suporte do grupo Multi, reunindo manuais, drivers, dicas de solução e solicitação de conserto num só lugar, com área dedicada ao revendedor. Atuei na frente de front-end.</p>
+          <div class="tag-row">
+            <span class="tag">Front-end</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Skills</h2>
+        <span class="eyebrow">03 · ferramentas do dia a dia</span>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-group" data-reveal>
+          <h3>Linguagens</h3>
+          <ul>
+            <li>Swift</li>
+            <li>Kotlin</li>
+            <li>JavaScript</li>
+            <li>HTML5</li>
+            <li>CSS3</li>
+          </ul>
+        </div>
+        <div class="skill-group" data-reveal>
+          <h3>iOS &amp; mobile</h3>
+          <ul>
+            <li>SwiftUI</li>
+            <li>UIKit</li>
+            <li>MVVM &amp; VIP</li>
+            <li>App Store</li>
+          </ul>
+        </div>
+        <div class="skill-group" data-reveal>
+          <h3>Front-end web</h3>
+          <ul>
+            <li>React</li>
+            <li>Vue</li>
+            <li>Sass</li>
+            <li>Bootstrap</li>
+          </ul>
+        </div>
+        <div class="skill-group" data-reveal>
+          <h3>Práticas &amp; ferramentas</h3>
+          <ul>
+            <li>Git</li>
+            <li>Princípios SOLID</li>
+            <li>Padrões de arquitetura</li>
+            <li>Figma</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiencia">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Experiência</h2>
+        <span class="eyebrow">04 · trajetória</span>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item" data-reveal>
+          <span class="timeline-date">jan 2026 — jul 2026</span>
+          <div class="timeline-body">
+            <h3>Desenvolvedora iOS</h3>
+            <span class="company">Fractal · remoto</span>
+            <p>No <strong>PROF</strong>, idealizado em VIP com UIKit programático mas ainda com boa parte da interface em Storyboard, removi esses Storyboards gradualmente, à medida que precisava mexer em cada feature, corrigi bugs existentes e construí uma feature de reconhecimento de documento que transforma a foto de um gabarito em PDF. No <strong>Versar Agenda</strong>, pensado em SwiftUI com MVVM-C, resolvi problemas de concorrência, navegação e tratamento de dados de API.</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-reveal>
+          <span class="timeline-date">mar 2025 — dez 2025</span>
+          <div class="timeline-body">
+            <h3>Mentora de Código Jr. | iOS</h3>
+            <span class="company">Apple Developer Academy | IFCE · trainee</span>
+            <p>Apoiei alunos no desenvolvimento de código e resolução de bugs para apps de plataformas Apple, conduzi talks introdutórias de tecnologia e participei de eventos da Apple. Também ajudei na migração do site legado da Academy para Vue.js.</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-reveal>
+          <span class="timeline-date">fev 2024 — fev 2025</span>
+          <div class="timeline-body">
+            <h3>Desenvolvedora &amp; Mentora Front-end</h3>
+            <span class="company">IREDE — Instituto de Gestão, Redes Tecnológicas e Energias</span>
+            <p>Desenvolvimento front-end aplicando princípios SOLID e padrões de arquitetura, com passagem por mentoria de código — revisão de código para o time e suporte a alunos de mobile com Kotlin.</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-reveal>
+          <span class="timeline-date">jan 2022 — dez 2023</span>
+          <div class="timeline-body">
+            <h3>Desenvolvedora iOS</h3>
+            <span class="company">Apple Developer Academy | IFCE · meio período</span>
+            <p>Dois anos de desenvolvimento iOS na Academy, aplicando princípios SOLID e controle de versão em projetos de formação.</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-reveal>
+          <span class="timeline-date">set 2021 — abr 2023</span>
+          <div class="timeline-body">
+            <h3>Desenvolvedora iOS &amp; Full-Stack Web</h3>
+            <span class="company">LDS — Pesquisa, Desenvolvimento &amp; Inovação · híbrido</span>
+            <p>Aplicativo iOS nativo com UIKit e SwiftUI seguindo o padrão MVVM, com versionamento no Azure, além de um dashboard web full-stack.</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-reveal>
+          <span class="timeline-date">jun 2021 — fev 2022</span>
+          <div class="timeline-body">
+            <h3>Desenvolvedora Front-end</h3>
+            <span class="company">IFCE-Maracanaú · meio período</span>
+            <p>Desenvolvimento, em ReactJS, de um dashboard para gerenciamento de dados do campus.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato">
+    <div class="wrap">
+      <div class="contact-panel" data-reveal>
+        <h2>Vamos construir a próxima experiência juntas?</h2>
+        <div class="contact-links">
+          <a class="link-chip" href="mailto:milimaalc.dev@gmail.com">✉ milimaalc.dev@gmail.com</a>
+          <a class="link-chip" href="https://github.com/milenaalcantara" target="_blank" rel="noopener noreferrer">↗ github.com/milenaalcantara</a>
+          <a class="link-chip" href="https://www.linkedin.com/in/milimaalc/" target="_blank" rel="noopener noreferrer">↗ linkedin.com/in/milimaalc</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Fortaleza, CE · atualizado em ago/2026</div>
+</footer>
+
+<script>
+  (function () {
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var eyebrow = document.getElementById('heroEyebrow');
+    if (eyebrow && !prefersReduced) {
+      var fullText = eyebrow.textContent;
+      eyebrow.textContent = '';
+      eyebrow.setAttribute('aria-label', fullText);
+      var charIndex = 0;
+      (function typeNextChar() {
+        eyebrow.textContent = fullText.slice(0, charIndex);
+        charIndex++;
+        if (charIndex <= fullText.length) {
+          setTimeout(typeNextChar, 38);
+        }
+      })();
+    }
+
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', function () {
+        var open = links.getAttribute('data-open') === 'true';
+        links.setAttribute('data-open', String(!open));
+        toggle.setAttribute('aria-expanded', String(!open));
+      });
+      links.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          links.setAttribute('data-open', 'false');
+          toggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+    var revealEls = document.querySelectorAll('[data-reveal]');
+    if (prefersReduced || !('IntersectionObserver' in window)) {
+      revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+    } else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealEls.forEach(function (el) { io.observe(el); });
+    }
+  })();
+</script>
